@@ -19,7 +19,7 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
 	private Image field;
 	private Graphics buffer;
 	
-	public Jeu() {
+	public Jeu(String nomEquipe1, String nomEquipe2) {
 		super("SoccerStars");
 		objectSelectionne = 42;
 
@@ -34,19 +34,19 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
 		buffer = background.getGraphics();
 
 		objects = new PaletAndBall[11];
-		objects[0] = new Palet(200,500,true);
-		objects[1] = new Palet(400,300,true);
-		objects[2] = new Palet(400,700,true);
-		objects[3] = new Palet(600,400,true);
-		objects[4] = new Palet(600,600,true);
+		objects[0] = new Palet(200,500,true,nomEquipe1);
+		objects[1] = new Palet(400,300,true,nomEquipe1);
+		objects[2] = new Palet(400,700,true,nomEquipe1);
+		objects[3] = new Palet(600,400,true,nomEquipe1);
+		objects[4] = new Palet(600,600,true,nomEquipe1);
 
 		objects[5] = new Ball();
 			
-		objects[6] = new Palet(1200,500,false);
-		objects[7] = new Palet(1000,300,false);
-		objects[8] = new Palet(1000,700,false);
-		objects[9] = new Palet(900,400,false);
-		objects[10] = new Palet(900,600,false);
+		objects[6] = new Palet(1200,500,false,nomEquipe2);
+		objects[7] = new Palet(1000,300,false,nomEquipe2);
+		objects[8] = new Palet(1000,700,false,nomEquipe2);
+		objects[9] = new Palet(900,400,false,nomEquipe2);
+		objects[10] = new Palet(900,600,false,nomEquipe2);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addMouseListener(this);
@@ -54,7 +54,7 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
 		setVisible(true);
 		setLayout(null);
 				
-		t = new Timer(100, this); //every 100ms move() is called on everything
+		t = new Timer(50, this); //every 50ms move() is called on everything
 		t.start();
 		//TODO: set Launcher
 		
@@ -76,8 +76,6 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
 				if(objects[i].isInside(firstX,firstY) && !(objects[i].isBall())) {
 					objectSelectionne = i;
 					//i'm sure that if objectSelectionne != 42 it's not the ball
-					//TODO: objects[objectSelectionne].estSelectionne(); 
-					//TODO: changer image quand sélectionné
 				}
 			}
 		}
@@ -104,29 +102,51 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
 		peutCliquer = true;
 		for(int i = 0; i<11; i++) {
+			//changement x et y avec move, gestion rebonds sur bords du terrain
 			objects[i].move();
+			//si objet en mouvement tu peux pas jouer
 			if(objects[i].getSpeed() > 0) peutCliquer = false;
 		}
 		repaint();
     }
 
 	public void paint(Graphics g) {
-		//TODO : do the palets/balls images
 		buffer.drawImage(field,0,0,null);
+
+                //* DEBUG
+                buffer.setColor(Color.GREEN);
+                buffer.fillRect(100,200,1200,3);
+                buffer.fillRect(100,200,3,600);
+                buffer.fillRect(1300,200,3,600);
+                //*/
+
 		for(int i = 0; i<11; i++) {
+
 			/*if(i != 5) { //hence not the ball
 				if(((Palet)objects[i]).getTeam()) buffer.setColor(Color.RED);
 				else buffer.setColor(Color.GREEN);
 			} else {
 				buffer.setColor(Color.BLACK);
 			}
-			buffer.fillOval((int)objects[i].getx(),(int)objects[i].gety(),(int)objects[i].getRadius(),(int)objects[i].getRadius()); */
-			buffer.drawImage(objects[i].getImage(),(int)objects[i].getx(),(int)objects[i].gety(),null);
+			buffer.fillOval((int)objects[i].getx(),(int)objects[i].gety(),(int)objects[i].getRadius(),(int)objects[i].getRadius());*/
+
+			buffer.drawImage(objects[i].getImage(),(int)(objects[i].getx()-objects[i].getRadius()),(int)(objects[i].gety()-objects[i].getRadius()),null);
+                        //just for now:
+                        if(i!=5) buffer.fillOval(690,490,20,20);
 		}
 		g.drawImage(background,0,0,this);
 	}
     	
 	public static void main(String[] args) {
-		Jeu j = new Jeu();
+		String eq1 = "", eq2;
+		try {
+			eq1 = args[0];
+			eq2 = args[1];
+		} catch(ArrayIndexOutOfBoundsException e) {
+			//noms par défaut
+			if(eq1 == "") eq1 = "Equipe1";
+			eq2 = "Equipe2";
+		}
+		Jeu j = new Jeu(eq1,eq2);
     	}
 }

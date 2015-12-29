@@ -5,9 +5,9 @@ import javax.imageio.ImageIO;
 
 public class Ball extends PaletAndBall {
 	public Ball() {
+		RADIUS = 10;
 		xobject = 700;
 		yobject = 500;
-		RADIUS = 15;
 
 		try {
 			imageObject = ImageIO.read(new File("ball.png"));

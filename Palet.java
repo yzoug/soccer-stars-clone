@@ -5,24 +5,35 @@ import javax.imageio.ImageIO;
 
 public class Palet extends PaletAndBall {
 	private boolean team; //player that owns the palet. True for player one, false for 2
-	private BufferedImage imagePalet;
+	private String teamName;
+	private BufferedImage grandeImagePalet;
 
-	public Palet(int X, int Y, boolean team) {
+	public Palet(int X, int Y, boolean team, String teamName) {
+		RADIUS = 15;
 		xobject = X;
 		yobject = Y;
 		this.team = team;
-		RADIUS = 30;
-
+		this.teamName = teamName;
 		try {
-			if(team) imageObject = ImageIO.read(new File("palet1.png"));
-			else imageObject = ImageIO.read(new File("palet2.png"));
+			imageObject = ImageIO.read(new File("palets/"+teamName+".png"));
+			grandeImagePalet = ImageIO.read(new File("palets/"+teamName+"BIG.png"));
 		} catch(IOException e) {
-			System.out.println("Image du palet non trouvee");
+			System.out.println("Image pour l'equipe non trouvee");
+			try {
+				if(team) imageObject = ImageIO.read(new File("palets/palet1.png"));
+				else imageObject = ImageIO.read(new File("palets/palet2.png"));
+			} catch(IOException ex) {
+				System.out.println("Image pour palet par defaut non trouvee");
+			}
 		}
 	}
 
 	public boolean getTeam() {
 		return team;
+	}
+
+	public String getTeamName() {
+		return teamName;
 	}
 
 	public boolean isBall() {
