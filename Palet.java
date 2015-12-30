@@ -32,6 +32,10 @@ public class Palet extends PaletAndBall {
 		return team;
 	}
 
+        public BufferedImage getBigImage() {
+                return grandeImagePalet;
+        }
+
 	public String getTeamName() {
 		return teamName;
 	}

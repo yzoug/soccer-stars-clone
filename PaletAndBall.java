@@ -85,15 +85,15 @@ abstract public class PaletAndBall extends JPanel {
             maxX = xobject + RADIUS;
             minY = yobject - RADIUS;
             maxY = yobject + RADIUS;
-            if(minX < 100) {
+            if(minX < 105) {
                 direction *= -1;
-                xobject = 100 + RADIUS;
-            } else if (maxX > 1300) {
+                xobject = 105 + RADIUS;
+            } else if (maxX > 1295) {
                 direction *= -1;
-                xobject = 1300 - RADIUS;
-            } else if(minY < 200) {
+                xobject = 1295 - RADIUS;
+            } else if(minY < 205) {
                 direction = Math.PI - direction;
-                yobject = 200 + RADIUS;
+                yobject = 205 + RADIUS;
             } else if(maxY > 800) {
                 direction = Math.PI - direction;
                 yobject = 800 - RADIUS;

@@ -45,8 +45,8 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
 		objects[6] = new Palet(1200,500,false,nomEquipe2);
 		objects[7] = new Palet(1000,300,false,nomEquipe2);
 		objects[8] = new Palet(1000,700,false,nomEquipe2);
-		objects[9] = new Palet(900,400,false,nomEquipe2);
-		objects[10] = new Palet(900,600,false,nomEquipe2);
+		objects[9] = new Palet(800,400,false,nomEquipe2);
+		objects[10] = new Palet(800,600,false,nomEquipe2);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addMouseListener(this);
@@ -112,6 +112,8 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
 
 	public void paint(Graphics g) {
 		buffer.drawImage(field,0,0,null);
+                buffer.drawImage(((Palet)(objects[0])).getBigImage(),100,30,null);
+                buffer.drawImage(((Palet)(objects[8])).getBigImage(),1180,30,null);
 
                 //* DEBUG
                 buffer.setColor(Color.GREEN);
