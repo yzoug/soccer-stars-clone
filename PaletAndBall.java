@@ -7,7 +7,7 @@ abstract public class PaletAndBall extends JPanel {
 
     protected double xobject,yobject;    //coordinates of the center of the palet at all times 
     protected double minX,maxX,minY,maxY; //coordinates of the min and max of the palet at all times
-    protected double RADIUS; //30 for palets, 15 for ball
+    protected double RADIUS; //40 for palets (donc image 80x80), 10 for ball
     protected double speed;
     protected double direction;
     protected BufferedImage imageObject;

@@ -9,7 +9,7 @@ public class Palet extends PaletAndBall {
 	private BufferedImage grandeImagePalet;
 
 	public Palet(int X, int Y, boolean team, String teamName) {
-		RADIUS = 15;
+		RADIUS = 40;
 		xobject = X;
 		yobject = Y;
 		this.team = team;
