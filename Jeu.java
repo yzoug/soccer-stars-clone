@@ -62,6 +62,8 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
     }
 
     public void initialSetup() {
+        turn = true;
+        peutCliquer = true;
         objects[0] = new Palet(200,500,true,nomEquipe1);
         objects[1] = new Palet(400,300,true,nomEquipe1);
         objects[2] = new Palet(400,700,true,nomEquipe1);
@@ -117,17 +119,30 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
             //changement x et y avec move, gestion rebonds sur bords du terrain
             //si move renvoie 0 rien de special, si renvoie 1 l'eq1 a marqué, si 2 eq2
             retour = objects[i].move();
-            if(retour == 1) {
-                ++score1;
-                initialSetup();
-            } else if (retour == 2) {
-                ++score2;
-                initialSetup();
+            if(retour != 0) {
+                if(retour == 1) {
+                    ++score1;
+                    initialSetup();
+                } else if (retour == 2) {
+                    ++score2;
+                    initialSetup();
+                }
             }
             //si objet en mouvement tu peux pas jouer
             if(objects[i].getSpeed() > 0) peutCliquer = false;
         }
+        collisions();
         repaint();
+    }
+
+    public void collisions() {
+        for(int i = 0; i < 11; i++) {
+            for(int j = 0; j < 11; j++) {
+                if(i!=j) {
+                    objects[i].collision(objects[j]);
+                }
+            }
+        }
     }
 
     public void paint(Graphics g) {
@@ -148,17 +163,9 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         //*/
 
         for(int i = 0; i<11; i++) {
-
-            /*if(i != 5) { //hence not the ball
-              if(((Palet)objects[i]).getTeam()) buffer.setColor(Color.RED);
-              else buffer.setColor(Color.GREEN);
-              } else {
-              buffer.setColor(Color.BLACK);
-              }
-              buffer.fillOval((int)objects[i].getx(),(int)objects[i].gety(),(int)objects[i].getRadius(),(int)objects[i].getRadius());*/
-
             buffer.drawImage(objects[i].getImage(),(int)(objects[i].getx()-objects[i].getRadius()),(int)(objects[i].gety()-objects[i].getRadius()),null);
         }
+
         g.drawImage(background,0,0,this);
     }
 

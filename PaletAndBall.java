@@ -40,37 +40,35 @@ abstract public class PaletAndBall extends JPanel {
 
     //launch the palet/ball according to the user input
     public void start(double firstX, double firstY, double xMouse, double yMouse){
-        //System.out.println(firstX + " " + firstY + " " + xMouse + " " + yMouse);
         speed = Math.pow(Math.pow(xMouse - firstX,2)+Math.pow(yMouse - firstY, 2),0.5);
         if(speed > 200) speed = 200;
         if(firstX == xMouse) ++firstX;
+        setDirection(firstX, firstY, xMouse, yMouse);
+    }
+
+    public void setDirection(double firstX, double firstY, double xMouse, double yMouse) {
         double dir = Math.atan(Math.abs(xMouse - firstX)/Math.abs(yMouse - firstY));
-        //System.out.println("dir: "+dir);
         if(xMouse - firstX > 0) {
             if(yMouse - firstY > 0) {
-                //System.out.println("case 4");
                 direction = dir - Math.PI;
             } else {
-                //System.out.println("case 3");
                 direction = 0 - dir;
             }
         } else {
             if(yMouse - firstY > 0) {
-                //System.out.println("case 2");
                 direction = Math.PI - dir;
             } else {
-                //System.out.println("case 1");
                 direction = dir ;
             }
         }
-        //System.out.println("direction: "+direction);
     }
 
-    //the start we'll use for collisions, super straightforward
-    public void startBis(double speed, double direction) {
-        this.speed = speed;
-        if(this.speed > 200) speed = 200;
-        this.direction = direction;
+    //is called at every action perfomed by each palet on every other palet
+    public void collision(PaletAndBall p) {
+        if(Math.pow((Math.pow(p.getX() - xobject,2) + Math.pow(p.getY()-yobject,2)),0.5)<=RADIUS + p.getRadius()) {
+            p.setDirection(p.getx(),p.gety(),xobject,yobject);
+            direction = 2*direction - p.getDirection();
+        }
     }
 
     public int move() {
@@ -100,6 +98,11 @@ abstract public class PaletAndBall extends JPanel {
         }
         return 0;
         //les buts sont gérés par move de Ball.java
+        //comme Palet.java ne redéfinit pas la classe
+        //c'est celle là qui est utilisée (et retourne
+        //tjrs 0). Pour Ball.java, le return de celle là
+        //est ignoré et c'est en fonction de but ou pas
+        //qu'un chiffre est retourné.
     }
 
     //true if mouse clicked on the palet, false otherwise

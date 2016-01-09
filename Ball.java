@@ -19,9 +19,9 @@ public class Ball extends PaletAndBall {
         return true;
     }
     public int move() {
-        super.move();
+        super.move(); //the return of super.move() isn't taken into account (always 0)
         //gestion des buts
-        if(yobject<465&&yobject>535) {
+        if(yobject<465 && yobject>535) {
             if((xobject-RADIUS)<105) return 2;
             else if((xobject+RADIUS)>1295) return 1;
         }
