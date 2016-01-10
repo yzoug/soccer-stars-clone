@@ -155,13 +155,6 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         buffer.drawString(Integer.toString(score1), 250, 150);
         buffer.drawString(Integer.toString(score2), 1030, 150);
 
-        /* DEBUG
-        buffer.setColor(Color.GREEN);
-        buffer.fillRect(100,200,1200,3);
-        buffer.fillRect(100,200,3,600);
-        buffer.fillRect(1300,200,3,600);
-        //*/
-
         for(int i = 0; i<11; i++) {
             buffer.drawImage(objects[i].getImage(),(int)(objects[i].getx()-objects[i].getRadius()),(int)(objects[i].gety()-objects[i].getRadius()),null);
         }

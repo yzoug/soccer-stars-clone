@@ -1,6 +1,5 @@
 import java.awt.Graphics;
 import javax.swing.JPanel;
-import java.lang.Math;
 import java.awt.image.BufferedImage;
 
 abstract public class PaletAndBall extends JPanel {
@@ -63,11 +62,17 @@ abstract public class PaletAndBall extends JPanel {
         }
     }
 
+    public void setSpeed(double speed) {
+        if(speed > 200) speed = 200;
+        this.speed = speed;   
+    }
+
     //is called at every action perfomed by each palet on every other palet
     public void collision(PaletAndBall p) {
-        if(Math.pow((Math.pow(p.getX() - xobject,2) + Math.pow(p.getY()-yobject,2)),0.5)<=RADIUS + p.getRadius()) {
+        if(Math.pow((Math.pow(p.getx() - xobject,2) + Math.pow(p.gety()-yobject,2)),0.5)<=RADIUS + p.getRadius()) {
             p.setDirection(p.getx(),p.gety(),xobject,yobject);
-            direction = 2*direction - p.getDirection();
+            p.setSpeed(speed);
+            direction = -(2*direction - p.getDirection());
         }
     }
 
