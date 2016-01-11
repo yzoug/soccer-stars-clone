@@ -69,7 +69,14 @@ abstract public class PaletAndBall extends JPanel {
 
     //is called at every action perfomed by each palet on every other palet
     public void collision(PaletAndBall p) {
-        if(Math.pow((Math.pow(p.getx() - xobject,2) + Math.pow(p.gety()-yobject,2)),0.5)<=RADIUS + p.getRadius()) {
+        double distance = Math.pow((Math.pow(p.getx() - xobject,2) + Math.pow(p.gety()-yobject,2)),0.5);
+        if(distance<=RADIUS + p.getRadius()) {
+            /*
+            while(distance<=RADIUS+p.getRadius()) { //on fait en sorte de ne JAMAIS afficher des palets qui se chevauchent
+                xobject += (10*Math.sin(direction)); 
+                yobject += (10*Math.cos(direction));
+            }
+            //*/
             p.setDirection(p.getx(),p.gety(),xobject,yobject);
             p.setSpeed(speed);
             direction = -(2*direction - p.getDirection());
@@ -80,8 +87,8 @@ abstract public class PaletAndBall extends JPanel {
         if(speed <= 0) speed = 0;
         else speed -= ((speed/10) + 1); //non linear decrease in speed
 
-        xobject = xobject + (speed*Math.sin(direction)); 
-        yobject = yobject + (speed*Math.cos(direction));
+        xobject += (speed*Math.sin(direction)); 
+        yobject += (speed*Math.cos(direction));
 
         //rebonds sur les bords de terrain
         minX = xobject - RADIUS;

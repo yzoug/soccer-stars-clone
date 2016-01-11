@@ -137,9 +137,9 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
 
     public void collisions() {
         for(int i = 0; i < 11; i++) {
-            for(int j = 0; j < 11; j++) {
-                if(i!=j) {
-                    objects[i].collision(objects[j]);
+            if(objects[i].getSpeed() > 0) { //on ne regarde collisions que si objet bouge
+                for(int j = 0; j < 11; j++) {
+                    if(i!=j) objects[i].collision(objects[j]);
                 }
             }
         }
