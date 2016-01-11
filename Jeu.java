@@ -41,6 +41,7 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         buffer = background.getGraphics();
 
         objects = new PaletAndBall[11];
+        turn = true;
         initialSetup();
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,7 +63,6 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
     }
 
     public void initialSetup() {
-        turn = true;
         peutCliquer = true;
         objects[0] = new Palet(200,500,true,nomEquipe1);
         objects[1] = new Palet(400,300,true,nomEquipe1);
@@ -120,13 +120,14 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
             //si move renvoie 0 rien de special, si renvoie 1 l'eq1 a marqué, si 2 eq2
             retour = objects[i].move();
             if(retour != 0) {
-                if(retour == 1) {
+                if(retour == 1){
                     ++score1;
-                    initialSetup();
-                } else if (retour == 2) {
+                    turn = false;
+                } else {
                     ++score2;
-                    initialSetup();
+                    turn = true;
                 }
+                initialSetup();
             }
             //si objet en mouvement tu peux pas jouer
             if(objects[i].getSpeed() > 0) peutCliquer = false;

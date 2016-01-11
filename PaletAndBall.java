@@ -63,29 +63,40 @@ abstract public class PaletAndBall extends JPanel {
     }
 
     public void setSpeed(double speed) {
-        if(speed > 200) speed = 200;
+        if(speed > 100) speed = 100;
         this.speed = speed;   
     }
 
     //is called at every action perfomed by each palet on every other palet
     public void collision(PaletAndBall p) {
         double distance = Math.pow((Math.pow(p.getx() - xobject,2) + Math.pow(p.gety()-yobject,2)),0.5);
+        double speedPalet = p.getSpeed();
         if(distance<=RADIUS + p.getRadius()) {
-            /*
+            //*
             while(distance<=RADIUS+p.getRadius()) { //on fait en sorte de ne JAMAIS afficher des palets qui se chevauchent
-                xobject += (10*Math.sin(direction)); 
-                yobject += (10*Math.cos(direction));
+                xobject -= (10*Math.sin(direction)); 
+                yobject -= (10*Math.cos(direction));
+                distance = Math.pow((Math.pow(p.getx() - xobject,2) + Math.pow(p.gety()-yobject,2)),0.5);
             }
             //*/
+            if(p.isBall()) {
+                p.setSpeed(speedPalet * 0.5 + 0.9 * speed);
+                speed *= 0.85; 
+            } else if(isBall()) {
+                p.setSpeed(speedPalet * 0.85); 
+                speed = speed * 0.9 + 0.5 * speedPalet;
+            } else {
+                p.setSpeed(speed/2+speedPalet/2);
+                speed = speedPalet/2 + speed/2;
+            }
+            direction = 2*direction - p.getDirection();
             p.setDirection(p.getx(),p.gety(),xobject,yobject);
-            p.setSpeed(speed);
-            direction = -(2*direction - p.getDirection());
         }
     }
 
     public int move() {
         if(speed <= 0) speed = 0;
-        else speed -= ((speed/10) + 1); //non linear decrease in speed
+        else speed -= ((speed/20) + 1); //non linear decrease in speed
 
         xobject += (speed*Math.sin(direction)); 
         yobject += (speed*Math.cos(direction));
@@ -95,6 +106,12 @@ abstract public class PaletAndBall extends JPanel {
         maxX = xobject + RADIUS;
         minY = yobject - RADIUS;
         maxY = yobject + RADIUS;
+
+        if(isBall() && yobject>405 && yobject<585) {
+            if((xobject-RADIUS)<105) return 2;
+            else if((xobject+RADIUS)>1295) return 1;
+        }
+
         if(minX < 105) {
             direction *= -1;
             xobject = 105 + RADIUS;
@@ -109,12 +126,6 @@ abstract public class PaletAndBall extends JPanel {
             yobject = 800 - RADIUS;
         }
         return 0;
-        //les buts sont gérés par move de Ball.java
-        //comme Palet.java ne redéfinit pas la classe
-        //c'est celle là qui est utilisée (et retourne
-        //tjrs 0). Pour Ball.java, le return de celle là
-        //est ignoré et c'est en fonction de but ou pas
-        //qu'un chiffre est retourné.
     }
 
     //true if mouse clicked on the palet, false otherwise
