@@ -9,14 +9,13 @@ import java.awt.event.*;
 
 public class EcranAcceuil extends JFrame implements ActionListener {
 
-    Image Wallpaper; //L'image de l'arrière plan "photo.png"
-    JTextField pseudo1; // Texte field to enter the pseudo
-    JTextField pseudo2; // Texte field to enter the pseudo
-    JPanel p0; // Panneau principal
-    JLabel fond; //Image sur panneau principal
-    JButton game; //To play
-    Image ballon;
-    SoundClip son = new SoundClip ("Tovelo");
+    private Image Wallpaper, ballon; //L'image de l'arrière plan "photo.png"
+    private JTextField pseudo1; // Texte field to enter the pseudo
+    private JTextField pseudo2; // Texte field to enter the pseudo
+    private JPanel p0; // Panneau principal
+    private JLabel fond; //Image sur panneau principal
+    private JButton game; //To play
+    private SoundClip son = new SoundClip("Tovelo");
 
     public EcranAcceuil(){
         //Initialiser rapidement les images sans contrôler leur existence
@@ -40,7 +39,7 @@ public class EcranAcceuil extends JFrame implements ActionListener {
 
         pseudo1 = new JTextField ("Equipe1");
         pseudo1.setSize (150, 80);
-        pseudo1.setLocation (200, 500);
+        pseudo1.setLocation (350, 420);
         pseudo1.setForeground(Color.black);
         pseudo1.setFont(police);
         pseudo1.setLayout(null);
@@ -49,7 +48,7 @@ public class EcranAcceuil extends JFrame implements ActionListener {
 
         pseudo2 = new JTextField ("Equipe2");
         pseudo2.setSize (150, 80);
-        pseudo2.setLocation (500, 500);
+        pseudo2.setLocation (740, 420);
         pseudo2.setForeground(Color.black);
         pseudo2.setFont(police);
         pseudo2.setLayout(null);
@@ -63,7 +62,7 @@ public class EcranAcceuil extends JFrame implements ActionListener {
 
         game = new JButton(new ImageIcon(ballon));
         game.setSize(80,80);
-        game.setLocation(700,500);
+        game.setLocation(590,420);
         game.setBackground(new Color (0, 100, 0));
         game.setLayout(null);
         game.addActionListener(this);

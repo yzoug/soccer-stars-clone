@@ -13,15 +13,15 @@ import java.awt.event.*;
 public class Jeu extends JFrame implements MouseListener, ActionListener {
     private PaletAndBall[] objects;
     private int objectSelectionne;
-    private boolean turn, peutCliquer, soundPlaying; //turn is true for player 1, false for player 2
+    private boolean turn, peutCliquer, soundPlaying, scored; //turn is true for player 1, false for player 2
     private Timer t;
     private double firstX, firstY;
     private BufferedImage background;
     private Image field;
     private Graphics buffer;
     private int score1, score2;
-    private String nomEquipe1, nomEquipe2;
-    SoundClip sound;
+    private String nomEquipe1, nomEquipe2, goalOrTurn;
+    private SoundClip sound, sifflet;
 
     public Jeu(String eq1, String eq2) {
         super("SoccerStars");
@@ -30,9 +30,12 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         score2 = 0;
         nomEquipe1 = eq1;
         nomEquipe2 = eq2;
+        goalOrTurn = "Your turn";
 
         sound = new SoundClip("Fifa");
+        sifflet = new SoundClip("sifflet");
         sound.start();
+        sifflet.start();
 
         try {
             field = ImageIO.read(new File("field.png"));
@@ -61,6 +64,8 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         turn = true;
         peutCliquer = true;
         soundPlaying = true;
+        scored = false;
+        sifflet.stop();
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -87,6 +92,7 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
     public void mousePressed(MouseEvent e) {
         firstX = e.getX();
         firstY = e.getY();
+        scored = false;
         if(!peutCliquer) objectSelectionne = 42;
         else {
             objectSelectionne = 42;
@@ -130,6 +136,8 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
             //si move renvoie 0 rien de special, si renvoie 1 l'eq1 a marqué, si 2 eq2
             retour = objects[i].move();
             if(retour != 0) {
+                sifflet.start();
+                scored = true;
                 if(retour == 1){
                     ++score1;
                     turn = false;
@@ -144,6 +152,14 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         }
         collisions();
         repaint();
+        sifflet.stop();
+        if(score1 == 2) {
+            setVisible(false);
+            EcranFinal vincent = new EcranFinal(nomEquipe1);
+        } else if(score2 == 2) {
+            setVisible(false);
+            EcranFinal zoug = new EcranFinal(nomEquipe2);
+        }
     }
 
     public void collisions() {
@@ -160,11 +176,23 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         buffer.drawImage(field,0,0,null);
         buffer.drawImage(((Palet)(objects[0])).getBigImage(),100,30,null);
         buffer.drawImage(((Palet)(objects[6])).getBigImage(),1180,30,null);
+        if(turn) {
+            buffer.drawImage(((Palet)(objects[0])).getBigImage(),640,30,null);
+            if(!scored) goalOrTurn = nomEquipe1 + ": your turn";
+            else goalOrTurn = "Goaaaal";
+        }
+        else {
+            buffer.drawImage(((Palet)(objects[6])).getBigImage(),640,30,null);
+            if(!scored) goalOrTurn = nomEquipe2 + ": your turn";
+            else goalOrTurn = "Goaaaal";
+        }
 
         buffer.setFont(new Font("TimesRoman", Font.PLAIN, 60));
         buffer.setColor(Color.WHITE);
-        buffer.drawString(Integer.toString(score1), 250, 150);
-        buffer.drawString(Integer.toString(score2), 1030, 150);
+        buffer.drawString(Integer.toString(score1), 230, 150);
+        buffer.drawString(Integer.toString(score2), 1130, 150);
+        buffer.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+        buffer.drawString(goalOrTurn, 600, 160);
         buffer.fillRect(400,150,50,50); //pour sound
 
         for(int i = 0; i<11; i++) {
