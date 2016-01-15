@@ -9,7 +9,7 @@ import java.awt.event.*;
 
 public class EcranAcceuil extends JFrame implements ActionListener {
 
-    private Image Wallpaper, ballon; //L'image de l'arrière plan "photo.png"
+    private Image wallpaper, ballon; //L'image de l'arrière plan "photo.png"
     private JTextField pseudo1; // Texte field to enter the pseudo
     private JTextField pseudo2; // Texte field to enter the pseudo
     private JPanel p0; // Panneau principal
@@ -20,7 +20,7 @@ public class EcranAcceuil extends JFrame implements ActionListener {
     public EcranAcceuil(){
         //Initialiser rapidement les images sans contrôler leur existence
         Toolkit T=Toolkit.getDefaultToolkit();
-        Wallpaper = T.getImage("fondAccueil.jpg");
+        wallpaper = T.getImage("fondAccueil.jpg");
         ballon = T.getImage("ballon.gif");
 
         setTitle("SoccerStars");
@@ -55,7 +55,7 @@ public class EcranAcceuil extends JFrame implements ActionListener {
         pseudo2.addActionListener(this);
         p0.add(pseudo2);
 
-        fond = new JLabel(new ImageIcon(Wallpaper));
+        fond = new JLabel(new ImageIcon(wallpaper));
         fond.setSize(1280,720);
         fond.setLocation(0,0);
         p0.add(fond);

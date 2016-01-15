@@ -155,10 +155,10 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         sifflet.stop();
         if(score1 == 2) {
             setVisible(false);
-            EcranFinal vincent = new EcranFinal(nomEquipe1);
+            EcranFinal vincent = new EcranFinal(nomEquipe1,nomEquipe2,1);
         } else if(score2 == 2) {
             setVisible(false);
-            EcranFinal zoug = new EcranFinal(nomEquipe2);
+            EcranFinal zoug = new EcranFinal(nomEquipe1,nomEquipe2,2);
         }
     }
 
