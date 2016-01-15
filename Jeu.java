@@ -53,6 +53,7 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
 
         setVisible(true);
         setLayout(null);
+        setResizable(false);
 
         t = new Timer(50, this); //every 50ms move() is called on everything
         t.start();

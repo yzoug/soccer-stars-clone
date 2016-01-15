@@ -18,7 +18,6 @@ public class Palet extends PaletAndBall {
             imageObject = ImageIO.read(new File("palets/"+teamName+".png"));
             grandeImagePalet = ImageIO.read(new File("palets/"+teamName+"BIG.png"));
         } catch(IOException e) {
-            System.out.println("Image pour l'equipe non trouvee");
             try {
                 if(team) {
                     imageObject = ImageIO.read(new File("palets/Equipe1.png"));

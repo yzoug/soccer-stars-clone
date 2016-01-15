@@ -28,7 +28,7 @@ public class EcranAcceuil extends JFrame implements ActionListener {
         setLayout(null);
         setSize(1280,720);              
         setLocation(30,10);
-        setResizable(true);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Font police = new Font("Arial", Font.BOLD,30);
@@ -39,8 +39,8 @@ public class EcranAcceuil extends JFrame implements ActionListener {
         this.add(p0);
 
         pseudo1 = new JTextField ("Equipe1");
-        pseudo1.setSize (190, 70);
-        pseudo1.setLocation (0, 0);
+        pseudo1.setSize (150, 80);
+        pseudo1.setLocation (200, 500);
         pseudo1.setForeground(Color.black);
         pseudo1.setFont(police);
         pseudo1.setLayout(null);
@@ -48,8 +48,8 @@ public class EcranAcceuil extends JFrame implements ActionListener {
         p0.add(pseudo1);
 
         pseudo2 = new JTextField ("Equipe2");
-        pseudo2.setSize (190, 70);
-        pseudo2.setLocation (1090, 0);
+        pseudo2.setSize (150, 80);
+        pseudo2.setLocation (500, 500);
         pseudo2.setForeground(Color.black);
         pseudo2.setFont(police);
         pseudo2.setLayout(null);
@@ -63,7 +63,7 @@ public class EcranAcceuil extends JFrame implements ActionListener {
 
         game = new JButton(new ImageIcon(ballon));
         game.setSize(80,80);
-        game.setLocation(560,500);
+        game.setLocation(700,500);
         game.setBackground(new Color (0, 100, 0));
         game.setLayout(null);
         game.addActionListener(this);

@@ -40,7 +40,7 @@ abstract public class PaletAndBall extends JPanel {
     //launch the palet/ball according to the user input
     public void start(double firstX, double firstY, double xMouse, double yMouse){
         speed = Math.pow(Math.pow(xMouse - firstX,2)+Math.pow(yMouse - firstY, 2),0.5);
-        if(speed > 200) speed = 200;
+        if(speed > 100) speed = 100;
         if(firstX == xMouse) ++firstX;
         setDirection(firstX, firstY, xMouse, yMouse);
     }
@@ -80,11 +80,11 @@ abstract public class PaletAndBall extends JPanel {
             }
             //*/
             if(p.isBall()) {
-                p.setSpeed(speedPalet * 0.5 + 0.9 * speed);
-                speed *= 0.85; 
+                p.setSpeed(speedPalet * 0.2 + 0.8 * speed);
+                speed *= 0.6; 
             } else if(isBall()) {
-                p.setSpeed(speedPalet * 0.85); 
-                speed = speed * 0.9 + 0.5 * speedPalet;
+                p.setSpeed(speedPalet * 0.6); 
+                speed = speed * 0.2 + 0.8 * speedPalet;
             } else {
                 p.setSpeed(speed/2+speedPalet/2);
                 speed = speedPalet/2 + speed/2;
