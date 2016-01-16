@@ -38,7 +38,7 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         sifflet.start();
 
         try {
-            field = ImageIO.read(new File("field.png"));
+            field = ImageIO.read(new File("field.jpg"));
         } catch(IOException e) {
             System.out.println("Image d'arriere plan non trouvee");
         }
@@ -92,7 +92,10 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
     public void mousePressed(MouseEvent e) {
         firstX = e.getX();
         firstY = e.getY();
-        scored = false;
+        if(scored) {
+           scored = false;
+           sifflet.stop();
+        }
         if(!peutCliquer) objectSelectionne = 42;
         else {
             objectSelectionne = 42;
@@ -152,13 +155,13 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         }
         collisions();
         repaint();
-        sifflet.stop();
-        if(score1 == 2) {
+        if(score1 == 2 || score2 == 2) {
             setVisible(false);
-            EcranFinal vincent = new EcranFinal(nomEquipe1,nomEquipe2,1);
-        } else if(score2 == 2) {
-            setVisible(false);
-            EcranFinal zoug = new EcranFinal(nomEquipe1,nomEquipe2,2);
+            sound.stop();
+            t.stop();
+            EcranFinal zoug;
+            if(score1 == 2) zoug = new EcranFinal(nomEquipe1,nomEquipe2,true);
+            else zoug = new EcranFinal(nomEquipe1,nomEquipe2,false);
         }
     }
 
@@ -180,8 +183,7 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
             buffer.drawImage(((Palet)(objects[0])).getBigImage(),640,30,null);
             if(!scored) goalOrTurn = nomEquipe1 + ": your turn";
             else goalOrTurn = "Goaaaal";
-        }
-        else {
+        } else {
             buffer.drawImage(((Palet)(objects[6])).getBigImage(),640,30,null);
             if(!scored) goalOrTurn = nomEquipe2 + ": your turn";
             else goalOrTurn = "Goaaaal";

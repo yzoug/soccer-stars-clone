@@ -9,16 +9,15 @@ import java.awt.event.*;
 
 public class EcranAcceuil extends JFrame implements ActionListener {
 
-    private Image wallpaper, ballon; //L'image de l'arrière plan "photo.png"
-    private JTextField pseudo1; // Texte field to enter the pseudo
-    private JTextField pseudo2; // Texte field to enter the pseudo
-    private JPanel p0; // Panneau principal
-    private JLabel fond; //Image sur panneau principal
-    private JButton game; //To play
+    private Image wallpaper, ballon;
+    private JTextField pseudo1;
+    private JTextField pseudo2;
+    private JPanel p0;
+    private JLabel fond;
+    private JButton game;
     private SoundClip son = new SoundClip("Tovelo");
 
     public EcranAcceuil(){
-        //Initialiser rapidement les images sans contrôler leur existence
         Toolkit T=Toolkit.getDefaultToolkit();
         wallpaper = T.getImage("fondAccueil.jpg");
         ballon = T.getImage("ballon.gif");

@@ -80,11 +80,11 @@ abstract public class PaletAndBall extends JPanel {
             }
             //*/
             if(p.isBall()) {
-                p.setSpeed(speedPalet * 0.2 + 0.8 * speed);
-                speed *= 0.6; 
+                p.setSpeed(speedPalet * 0.8 + 0.8 * speed);
+                speed = 0.8 * speed + 0.8 * speedPalet; 
             } else if(isBall()) {
-                p.setSpeed(speedPalet * 0.6); 
-                speed = speed * 0.2 + 0.8 * speedPalet;
+                p.setSpeed(speedPalet * 0.8 + 0.8 * speed); 
+                speed = speed * 0.8 + 0.8 * speedPalet;
             } else {
                 p.setSpeed(speed/2+speedPalet/2);
                 speed = speedPalet/2 + speed/2;
