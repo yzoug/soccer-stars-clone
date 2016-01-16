@@ -68,10 +68,6 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         sifflet.stop();
     }
 
-    public void mouseClicked(MouseEvent e) {
-        //void
-    }
-
     public void initialSetup() {
         peutCliquer = true;
         objects[0] = new Palet(200,500,true,nomEquipe1);
@@ -87,6 +83,14 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         objects[8] = new Palet(1000,700,false,nomEquipe2);
         objects[9] = new Palet(800,400,false,nomEquipe2);
         objects[10] = new Palet(800,600,false,nomEquipe2);
+    }
+
+    public void mouseClicked(MouseEvent e) {
+        if(firstX>400 && firstX<528 && firstY>30 && firstY<158) {
+            if(soundPlaying) sound.stop();
+            else sound.start();
+            soundPlaying = !soundPlaying;
+        }
     }
 
     public void mousePressed(MouseEvent e) {
@@ -105,11 +109,6 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
                     //i'm sure that if objectSelectionne != 42 it's not the ball
                 }
             }
-        }
-        if(firstX>400 && firstX<450 && firstY>150 && firstY<200) {
-            if(soundPlaying) sound.stop();
-            else sound.start();
-            soundPlaying = !soundPlaying;
         }
     }
 
@@ -180,7 +179,7 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         buffer.drawImage(((Palet)(objects[0])).getBigImage(),100,30,null);
         buffer.drawImage(((Palet)(objects[6])).getBigImage(),1180,30,null);
         if(turn) {
-            buffer.drawImage(((Palet)(objects[0])).getBigImage(),640,30,null);
+            buffer.drawImage(((Palet)(objects[0])).getBigImage(),640,15,null);
             if(!scored) goalOrTurn = nomEquipe1 + ": your turn";
             else goalOrTurn = "Goaaaal";
         } else {
@@ -191,11 +190,10 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
 
         buffer.setFont(new Font("TimesRoman", Font.PLAIN, 60));
         buffer.setColor(Color.WHITE);
-        buffer.drawString(Integer.toString(score1), 230, 150);
-        buffer.drawString(Integer.toString(score2), 1130, 150);
-        buffer.setFont(new Font("TimesRoman", Font.PLAIN, 50));
-        buffer.drawString(goalOrTurn, 600, 160);
-        buffer.fillRect(400,150,50,50); //pour sound
+        buffer.drawString(Integer.toString(score1), 230, 120);
+        buffer.drawString(Integer.toString(score2), 1130, 120);
+        buffer.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+        buffer.drawString(goalOrTurn, 540, 180);
 
         for(int i = 0; i<11; i++) {
             buffer.drawImage(objects[i].getImage(),(int)(objects[i].getx()-objects[i].getRadius()),(int)(objects[i].gety()-objects[i].getRadius()),null);
