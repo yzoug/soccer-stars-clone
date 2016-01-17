@@ -28,48 +28,42 @@ public class Jeu extends JFrame implements MouseMotionListener, MouseListener, A
         nomEquipe1 = eq1;
         nomEquipe2 = eq2;
         goalOrTurn = "Your turn";
+
         pointStart = new Point(0,0);
         pointEnd = new Point(0,0);
+        background = new BufferedImage(1400,800,BufferedImage.TYPE_INT_RGB);
+        buffer = background.getGraphics();
+        objects = new PaletAndBall[11];
+        initialSetup();
+        
+        turn = true;
+        peutCliquer = true;
+        soundPlaying = true;
+        scored = false;
+
+        setVisible(true);
+        setLayout(null);
+        setResizable(false);
+        setSize(1400,800); //1200*600 c'est le terrain, 200 en haut pour score, 100 chaque côté pour les cages
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addMouseListener(this);
+        addMouseMotionListener(this);
 
         sound = new SoundClip("Fifa");
         sifflet = new SoundClip("sifflet");
         sound.start();
+        sifflet.start();
        
         try {
             field = ImageIO.read(new File("field.jpg"));
         } catch(IOException e) {
             System.out.println("Image d'arriere plan non trouvee");
         }
-        
-        sifflet.start();
-
-        setSize(1400,800); //1200*600 c'est le terrain, 200 en haut pour score, 100 chaque côté pour les cages
-        background = new BufferedImage(1400,800,BufferedImage.TYPE_INT_RGB);
-        buffer = background.getGraphics();
-
-        objects = new PaletAndBall[11];
-        initialSetup();
-        
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        addMouseListener(this);
-        addMouseMotionListener(this);
-
-        setVisible(true);
-        setLayout(null);
-        setResizable(false);
-        sifflet.stop();
 
         t = new Timer(50, this); //every 50ms move() is called on everything
         t.start();
         
-        
-
-        turn = true;
-        peutCliquer = true;
-        soundPlaying = true;
-        scored = false;
-        
-        
+        sifflet.stop();
     }
 
     public void initialSetup() {
@@ -154,14 +148,12 @@ public class Jeu extends JFrame implements MouseMotionListener, MouseListener, A
             //si move renvoie 0 rien de special, si renvoie 1 l'eq1 a marqué, si 2 eq2
             retour = objects[i].move();
             if(retour != 0) {
-                
                 scored = true;
+		sifflet.start();
                 if(retour == 1){
-					sifflet.start();
                     ++score1;
                     turn = false;
                 } else {
-					sifflet.start();
                     ++score2;
                     turn = true;
                 }
