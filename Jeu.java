@@ -1,16 +1,12 @@
-import javax.swing.JFrame;
-import javax.swing.Timer;
+import javax.swing.*;
 import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.IOException;
-import java.awt.Graphics;
+import java.io.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.Image;
-import java.awt.Font;
-import java.awt.Color;
 import java.awt.event.*;
+import java.awt.geom.*;
 
-public class Jeu extends JFrame implements MouseListener, ActionListener {
+public class Jeu extends JFrame implements MouseMotionListener, MouseListener, ActionListener {
     private PaletAndBall[] objects;
     private int objectSelectionne;
     private boolean turn, peutCliquer, soundPlaying, scored; //turn is true for player 1, false for player 2
@@ -22,6 +18,7 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
     private int score1, score2;
     private String nomEquipe1, nomEquipe2, goalOrTurn;
     private SoundClip sound, sifflet;
+    private Point pointStart, pointEnd;
 
     public Jeu(String eq1, String eq2) {
         super("SoccerStars");
@@ -31,41 +28,48 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         nomEquipe1 = eq1;
         nomEquipe2 = eq2;
         goalOrTurn = "Your turn";
+        pointStart = new Point(0,0);
+        pointEnd = new Point(0,0);
 
         sound = new SoundClip("Fifa");
         sifflet = new SoundClip("sifflet");
         sound.start();
-        sifflet.start();
-
+       
         try {
             field = ImageIO.read(new File("field.jpg"));
         } catch(IOException e) {
             System.out.println("Image d'arriere plan non trouvee");
         }
+        
+        sifflet.start();
 
         setSize(1400,800); //1200*600 c'est le terrain, 200 en haut pour score, 100 chaque côté pour les cages
         background = new BufferedImage(1400,800,BufferedImage.TYPE_INT_RGB);
         buffer = background.getGraphics();
 
         objects = new PaletAndBall[11];
-        turn = true;
         initialSetup();
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addMouseListener(this);
+        addMouseMotionListener(this);
 
         setVisible(true);
         setLayout(null);
         setResizable(false);
+        sifflet.stop();
 
         t = new Timer(50, this); //every 50ms move() is called on everything
         t.start();
+        
+        
 
         turn = true;
         peutCliquer = true;
         soundPlaying = true;
         scored = false;
-        sifflet.stop();
+        
+        
     }
 
     public void initialSetup() {
@@ -104,8 +108,10 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         else {
             objectSelectionne = 42;
             for(int i = 0; i < 11; i++) {
-                if(objects[i].isInside(firstX,firstY) && !(objects[i].isBall())) {
+                if(objects[i].isInside(firstX,firstY) && !(objects[i].isBall()) && ((Palet)objects[i]).getTeam() == turn) {
                     objectSelectionne = i;
+                    pointStart.x = (int)firstX;
+                    pointStart.y = (int)firstY;
                     //i'm sure that if objectSelectionne != 42 it's not the ball
                 }
             }
@@ -115,11 +121,21 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
     public void mouseReleased(MouseEvent e) {
         double x = e.getX();
         double y = e.getY();
-        if (objectSelectionne != 42 && ((Palet)objects[objectSelectionne]).getTeam() == turn) {
+        if (objectSelectionne != 42) {
             objects[objectSelectionne].start(firstX,firstY,x,y);
             turn = !turn;
+            pointStart = new Point(0,0);
         }
     }
+    
+    public void mouseMoved(MouseEvent e) {
+		
+	}
+	
+	public void mouseDragged(MouseEvent e) {
+		pointEnd = e.getPoint();
+		repaint();	
+	}
 
     public void mouseEntered(MouseEvent e) {
         //void
@@ -138,16 +154,19 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
             //si move renvoie 0 rien de special, si renvoie 1 l'eq1 a marqué, si 2 eq2
             retour = objects[i].move();
             if(retour != 0) {
-                sifflet.start();
+                
                 scored = true;
                 if(retour == 1){
+					sifflet.start();
                     ++score1;
                     turn = false;
                 } else {
+					sifflet.start();
                     ++score2;
                     turn = true;
                 }
                 initialSetup();
+                sifflet.stop();
             }
             //si objet en mouvement tu peux pas jouer
             if(objects[i].getSpeed() > 0) peutCliquer = false;
@@ -199,8 +218,45 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
             buffer.drawImage(objects[i].getImage(),(int)(objects[i].getx()-objects[i].getRadius()),(int)(objects[i].gety()-objects[i].getRadius()),null);
         }
 
+		if(!pointStart.equals(new Point(0,0))) {
+			//Graphics2D buffer2D = (Graphics2D) g;
+			//buffer.setStroke(new BasicStroke(10));
+			//buffer.draw(new Line2D.Float(pointStart.x, pointStart.y, pointEnd.x, pointEnd.y));
+			drawThickLine(buffer, pointStart.x, pointStart.y, pointEnd.x, pointEnd.y, 10, Color.BLACK);
+		}
+		
         g.drawImage(background,0,0,this);
     }
+    
+    public void drawThickLine(Graphics g, int x1, int y1, int x2, int y2, int thickness, Color c) {
+		// The thick line is in fact a filled polygon
+		g.setColor(c);
+		int dX = x2 - x1;
+		int dY = y2 - y1;
+		// line length
+		double lineLength = Math.sqrt(dX * dX + dY * dY);
+
+		double scale = (double)(thickness) / (2 * lineLength);
+
+		// The x,y increments from an endpoint needed to create a rectangle...
+		double ddx = -scale * (double)dY;
+		double ddy = scale * (double)dX;
+		ddx += (ddx > 0) ? 0.5 : -0.5;
+		ddy += (ddy > 0) ? 0.5 : -0.5;
+		int dx = (int)ddx;
+		int dy = (int)ddy;
+
+		// Now we can compute the corner points...
+		int xPoints[] = new int[4];
+		int yPoints[] = new int[4];
+
+		xPoints[0] = x1 + dx; yPoints[0] = y1 + dy;
+		xPoints[1] = x1 - dx; yPoints[1] = y1 - dy;
+		xPoints[2] = x2 - dx; yPoints[2] = y2 - dy;
+		xPoints[3] = x2 + dx; yPoints[3] = y2 + dy;
+
+		g.fillPolygon(xPoints, yPoints, 4);
+	}
 
     public static void main(String[] args) {
         String eq1 = "", eq2;
@@ -215,3 +271,4 @@ public class Jeu extends JFrame implements MouseListener, ActionListener {
         Jeu j = new Jeu(eq1,eq2);
     }
 }
+
