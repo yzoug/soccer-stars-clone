@@ -124,12 +124,12 @@ public class Jeu extends JFrame implements MouseMotionListener, MouseListener, A
     
     public void mouseMoved(MouseEvent e) {
 		
-	}
+    }
 	
-	public void mouseDragged(MouseEvent e) {
+    public void mouseDragged(MouseEvent e) {
 		pointEnd = e.getPoint();
 		repaint();	
-	}
+    }
 
     public void mouseEntered(MouseEvent e) {
         //void

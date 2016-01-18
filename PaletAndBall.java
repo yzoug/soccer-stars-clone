@@ -1,8 +1,7 @@
 import java.awt.Graphics;
-import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 
-abstract public class PaletAndBall extends JPanel {
+abstract public class PaletAndBall {
 
     protected double xobject,yobject;    //coordinates of the center of the palet at all times 
     protected double minX,maxX,minY,maxY; //coordinates of the min and max of the palet at all times
