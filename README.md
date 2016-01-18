@@ -5,7 +5,7 @@ To play, clone this repository or download the zip and unzip it on your computer
 **Team members :** Horia Burca, Guilhem Dupuy, Vincent Garcia, Yassine Zouggari
 **Supervized by :** Yassine Zouggari (yzoug on GitHub)
 
-[!Image of the original game](http://i.imgur.com/Tchcfxw.jpg)
+![Image of the original game](http://i.imgur.com/Tchcfxw.jpg)
 
 ###Aim of the project: 
 
