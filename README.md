@@ -3,6 +3,7 @@
 To play, clone this repository or download the zip and unzip it on your computer. Then compile the files and launch the EcranAccueil class (*java EcranAccueil*). If you have a custom puck done for you (if you're a SCAN student mainly) enter your first name. For example, try *yassine* and *horia*.
 
 **Team members :** Horia Burca, Guilhem Dupuy, Vincent Garcia, Yassine Zouggari
+
 **Supervized by :** Yassine Zouggari (yzoug on GitHub)
 
 ![Image of the original game](http://i.imgur.com/Tchcfxw.jpg)
@@ -55,6 +56,7 @@ Her is the complete list of the different objects we used :
 * An abstract class named *PaletAndBall*. As its name suggests, it is divided in 2 child classes :
  * public *Ball*
  * public *Palet*
+
 We found the creation of such a class usefull in order to optimize the space occupied by our program; indeed, “Ball” and “Palet” objects share lots of common methods and attributes. In order to be able to know if our *PaletAndBall* object is a ball or a puck, we implemented the abstract isBall method, which returns a boolean. This is because throughout the game, we manipulate an *objects* variable that is an array containing ten pucks and a ball, hence we actually never know if we have a puck or a ball without using this method.
 
 * A public class named *Jeu*, child class of a JFrame, whcih implements an *ActionListener* (used for our Timer) and a *MouseListener* (used by the players when they set the speed and direction of one of their pucks).
@@ -68,13 +70,17 @@ We found the creation of such a class usefull in order to optimize the space occ
 ### Enhancement ideas :
 
 In our opinion, the main problem of our program is the sometimes non-realistic rebounds. Some extra work could be done in order to find better physical models, which would enhance the gameplay.
+
 Furthermore, we could also add posts to each side of our goals, which would make the rebounds on the side of the goals more interesting. This could be quite easily done by creating a non-moving *PaletAndBall* object. We didn’t realize this on our program as the use of a drawing software like Paint, Photoshop or GIMP is very time-consuming and not very interesting in terms of Computer Science.
+
 Some animation could be added when one of the players scores, once again in order to enhance the gameplay quality.
+
 Finally, the big enhancement idea (that Yassine will still work on even after the end of the project) is playing online. However, at INSA, the Internet access we have is behind a firewall that blocks all ports (except a few reserved ones). That's why for example it's impossible to use Steam or IRC clients from our homes. This made the writing of the server-side client-side of the code a lot harder, since I simply couldn't test if it was working or not. If I manage to find a solution it'll be possible to play our game over the web (I even have a server that can do the connection).
 
 ### Planning
 
 The actual way our project happened, the whole day-to-day changes are all available on GitHub: simply look at the [commits](https://github.com/yzoug/soccer-stars-clone/commits/master).
+
 However, we also had an initial planning that we hence didn't follow at the letter, but it's amusing to see how priorities shift when we actually start working on the project versus simply planning it. If you want to compare what happened and what we planned, here it is:
 
 11/12/2015 :
